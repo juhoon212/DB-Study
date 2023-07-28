@@ -2,8 +2,6 @@ package com.example.jdbc.service;
 
 import com.example.jdbc.domain.Member;
 import com.example.jdbc.repository.MemberRepositoryV3;
-import com.example.jdbc.repository.MemberRepositoryV3;
-import com.example.jdbc.service.MemberServiceV3_1;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,18 +20,18 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  *
- * 트랜잭션 - 커넥션 파라미터의 전달 방식 동기화
+ * 트랜잭션 - 트랜잭션 템플릿
  */
 
 @Slf4j
-class MemberServiceV3_1Test {
+class MemberServiceV3_2Test {
 
     private static final String MEMBER_A = "memberA";
     private static final String MEMBER_B = "memberB";
     private static final String MEMBER_Ex = "ex";
 
     private MemberRepositoryV3 memberRepository;
-    private MemberServiceV3_1 memberService;
+    private MemberServiceV3_2 memberService;
 
     @BeforeEach
     void before() {
@@ -41,7 +39,7 @@ class MemberServiceV3_1Test {
          memberRepository = new MemberRepositoryV3(dataSource);
 
         PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
-        memberService = new MemberServiceV3_1(transactionManager, memberRepository);
+        memberService = new MemberServiceV3_2(transactionManager, memberRepository);
     }
 
     @AfterEach
@@ -88,7 +86,7 @@ class MemberServiceV3_1Test {
 
         Member findMemberA = memberRepository.findById(memberA.getMemberId());
         Member findMemberEx = memberRepository.findById(memberEx.getMemberId());
-        assertThat(findMemberA.getMoney()).isEqualTo(8000);
+        assertThat(findMemberA.getMoney()).isEqualTo(10000);
         assertThat(findMemberEx.getMoney()).isEqualTo(10000);
 
     }
